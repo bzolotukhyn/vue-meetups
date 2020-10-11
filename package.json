@@ -47,7 +47,27 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "prettier/prettier": [
+        "warn",
+        {
+          "#": "prettier config in here :)",
+          "singleQuote": true,
+          "trailingComma": "es5",
+          "tabWidth": 4,
+          "jsxBracketSameLine": true,
+          "bracketSameLine": true,
+          "htmlWhitespaceSensitivity": "ignore"
+        }
+      ],
+      "vue/html-closing-bracket-newline": [
+        "warn",
+        {
+          "singleline": "never",
+          "multiline": "never"
+        }
+      ]
+    }
   },
   "browserslist": [
     "> 1%",

@@ -1,56 +1,65 @@
 <template>
-  <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+    <v-app>
+        <v-navigation-drawer app v-model="drawer" temporary>
+            <v-list>
+                <v-list-item v-for="item in menuItems" :key="item.title">
+                    <v-list-item-action>
+                        <v-icon>{{ item.icon }}</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-action-text>
+                        <router-link :to="{ name: item.routeName }">
+                            {{ item.title }}
+                        </router-link>
+                    </v-list-item-action-text>
+                </v-list-item>
+            </v-list>
+        </v-navigation-drawer>
+        <v-app-bar app>
+            <v-app-bar-nav-icon
+                class="d-flex d-sm-none"
+                @click.stop="drawer = !drawer"/>
+            <v-toolbar-title>Meetups</v-toolbar-title>
+            <v-spacer />
+            <v-toolbar-items
+                class="d-none d-sm-flex"
+                v-for="item in menuItems"
+                :key="item.title">
+                <v-btn text>
+                    <v-icon left>{{ item.icon }}</v-icon>
+                    {{ item.title }}
+                </v-btn>
+            </v-toolbar-items>
+        </v-app-bar>
+        <v-main>
+            <v-container fluid>
+                <router-view></router-view>
+            </v-container>
+        </v-main>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-main>
-      <HelloWorld />
-    </v-main>
-  </v-app>
+        <v-footer app></v-footer>
+    </v-app>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
-
 export default {
-  name: "App",
-
-  components: {
-    HelloWorld
-  },
-
-  data: () => ({
-    //
-  })
+    name: 'App',
+    data: () => ({
+        drawer: false,
+        menuItems: [
+            {
+                icon: 'mdi-account-supervisor',
+                title: 'View Meetups',
+                routeName: 'Meetups',
+            },
+            {
+                icon: 'mdi-map-marker',
+                title: 'Organize Meetup',
+                routeName: 'CreateMeetup',
+            },
+            { icon: 'mdi-account', title: 'Profile', routeName: 'Profile' },
+            { icon: 'mdi-face', title: 'Sign Up', routeName: 'SignUp' },
+            { icon: 'mdi-lock-open', title: 'Sign In', routeName: 'SignIn' },
+        ],
+    }),
 };
 </script>
