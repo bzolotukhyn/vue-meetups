@@ -20,7 +20,7 @@ const routes = [
         component: Meetups,
     },
     {
-        path: '/new-meetup',
+        path: '/newmeetup',
         name: 'CreateMeetup',
         component: CreateMeetup,
     },
@@ -30,12 +30,12 @@ const routes = [
         component: Profile,
     },
     {
-        path: '/',
+        path: '/signin',
         name: 'SignIn',
         component: SignIn,
     },
     {
-        path: '/',
+        path: '/singup',
         name: 'SignUp',
         component: SignUp,
     },

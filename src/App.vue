@@ -1,15 +1,17 @@
 <template>
     <v-app>
-        <v-navigation-drawer app v-model="drawer" temporary>
+        <v-navigation-drawer app v-model="drawer">
             <v-list>
-                <v-list-item v-for="item in menuItems" :key="item.title">
+                <v-list-item
+                    v-for="item in menuItems"
+                    link
+                    :to="{ name: item.routeName }"
+                    :key="item.title">
                     <v-list-item-action>
                         <v-icon>{{ item.icon }}</v-icon>
                     </v-list-item-action>
                     <v-list-item-action-text>
-                        <router-link :to="{ name: item.routeName }">
-                            {{ item.title }}
-                        </router-link>
+                        {{ item.title }}
                     </v-list-item-action-text>
                 </v-list-item>
             </v-list>
@@ -18,13 +20,15 @@
             <v-app-bar-nav-icon
                 class="d-flex d-sm-none"
                 @click.stop="drawer = !drawer"/>
-            <v-toolbar-title>Meetups</v-toolbar-title>
+            <v-toolbar-title>
+                <router-link to="/">Meetuper</router-link>
+            </v-toolbar-title>
             <v-spacer />
             <v-toolbar-items
                 class="d-none d-sm-flex"
                 v-for="item in menuItems"
                 :key="item.title">
-                <v-btn text>
+                <v-btn text link :to="{ name: item.routeName }">
                     <v-icon left>{{ item.icon }}</v-icon>
                     {{ item.title }}
                 </v-btn>
