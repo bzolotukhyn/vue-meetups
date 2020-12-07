@@ -1,21 +1,5 @@
 <template>
     <v-app>
-        <v-navigation-drawer app temporary v-model="drawer">
-            <v-list>
-                <v-list-item
-                    v-for="item in menuItems"
-                    link
-                    :to="{ name: item.routeName }"
-                    :key="item.title">
-                    <v-list-item-action>
-                        <v-icon>{{ item.icon }}</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-action-text>
-                        {{ item.title }}
-                    </v-list-item-action-text>
-                </v-list-item>
-            </v-list>
-        </v-navigation-drawer>
         <v-app-bar app>
             <v-app-bar-nav-icon
                 class="d-flex d-sm-none"
