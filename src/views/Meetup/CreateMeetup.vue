@@ -111,12 +111,11 @@ export default {
                 .ref('meetups/' + key + ext)
                 .put(image);
             const imageSrc = await fileData.ref.getDownloadURL();
-            const dbMeetup = await firebase
+            await firebase
                 .database()
                 .ref('meetups')
                 .child(key)
-                .update({ imageSrc });
-            console.log('dbMeetup: ', dbMeetup);
+                .update({ imageSrc })
         },
         getISODateStr() {
             return new Date(`${this.date}T${this.time}`).toISOString();
