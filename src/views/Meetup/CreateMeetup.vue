@@ -125,12 +125,9 @@ export default {
             if (!file) {
                 this.imageUrl = '';
                 this.image = null;
+                return;
             }
-            const fileReader = new FileReader();
-            fileReader.addEventListener('load', () => {
-                this.imageUrl = fileReader.result;
-            });
-            fileReader.readAsDataURL(file);
+            this.imageUrl = URL.createObjectURL(file);
             this.image = file;
         },
     },
