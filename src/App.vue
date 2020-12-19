@@ -8,13 +8,19 @@
                 <router-link to="/">Meetuper</router-link>
             </v-toolbar-title>
             <v-spacer />
-            <v-toolbar-items
-                class="d-none d-sm-flex"
-                v-for="item in menuItems"
-                :key="item.title">
-                <v-btn text link :to="{ name: item.routeName }">
+            <v-toolbar-items class="d-none d-sm-flex">
+                <v-btn
+                    v-for="item in menuItems"
+                    :key="item.title"
+                    text
+                    link
+                    :to="{ name: item.routeName }">
                     <v-icon left>{{ item.icon }}</v-icon>
                     {{ item.title }}
+                </v-btn>
+                <v-btn v-if="user" text @click="logOut">
+                    <v-icon left>mdi-door-open</v-icon>
+                    Log out
                 </v-btn>
             </v-toolbar-items>
         </v-app-bar>
@@ -33,21 +39,48 @@ export default {
     name: 'App',
     data: () => ({
         drawer: false,
-        menuItems: [
-            {
-                icon: 'mdi-account-supervisor',
-                title: 'View Meetups',
-                routeName: 'Meetups',
-            },
-            {
-                icon: 'mdi-map-marker',
-                title: 'Organize Meetup',
-                routeName: 'CreateMeetup',
-            },
-            { icon: 'mdi-account', title: 'Profile', routeName: 'Profile' },
-            { icon: 'mdi-face', title: 'Sign Up', routeName: 'SignUp' },
-            { icon: 'mdi-lock-open', title: 'Sign In', routeName: 'SignIn' },
-        ],
     }),
+    computed: {
+        user() {
+            return this.$store.state.user;
+        },
+        menuItems() {
+            const common = [
+                {
+                    icon: 'mdi-account-supervisor',
+                    title: 'View Meetups',
+                    routeName: 'Meetups',
+                },
+            ];
+            if (this.user) {
+                return common.concat([
+                    {
+                        icon: 'mdi-map-marker',
+                        title: 'Organize Meetup',
+                        routeName: 'CreateMeetup',
+                    },
+                    {
+                        icon: 'mdi-account',
+                        title: 'Profile',
+                        routeName: 'Profile',
+                    },
+                ]);
+            } else {
+                return common.concat([
+                    {
+                        icon: 'mdi-lock-open',
+                        title: 'Sign In',
+                        routeName: 'SignIn',
+                    },
+                    { icon: 'mdi-face', title: 'Sign Up', routeName: 'SignUp' },
+                ]);
+            }
+        },
+    },
+    methods: {
+        logOut() {
+            this.$store.dispatch('logout');
+        },
+    },
 };
 </script>

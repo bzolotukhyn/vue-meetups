@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container style="max-width: 750px">
         <v-form @submit.prevent="createMeetup">
             <v-row>
                 <v-col>
@@ -115,7 +115,7 @@ export default {
                 .database()
                 .ref('meetups')
                 .child(key)
-                .update({ imageSrc })
+                .update({ imageSrc });
         },
         getISODateStr() {
             return new Date(`${this.date}T${this.time}`).toISOString();

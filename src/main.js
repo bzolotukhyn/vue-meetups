@@ -8,11 +8,6 @@ import * as firebase from 'firebase';
 Vue.config.productionTip = false;
 
 new Vue({
-    data() {
-        return {
-            user: null,
-        };
-    },
     created() {
         firebase.initializeApp({
             apiKey: 'AIzaSyCxCsXyvqwIwBrG2mM9NUC1XtwtP8LILQs',
@@ -22,13 +17,21 @@ new Vue({
             storageBucket: 'homeworkproject-1bde7.appspot.com',
             appId: '1:406969059083:web:947a80947cb17b6ed5440e',
         });
+
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                this.user = user.uid;
+                this.$store.dispatch('autoSignIn', user);
+                if (this.$route.meta.nonAuth) {
+                    this.$router.push('/');
+                }
             } else {
-                this.user = null;
+                this.$store.commit('setUser', null);
+                if (this.$route.meta.auth) {
+                    this.$router.push('/');
+                }
             }
         });
+        window.firebase = firebase;
     },
     router,
     store,

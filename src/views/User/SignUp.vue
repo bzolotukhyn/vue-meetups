@@ -1,42 +1,33 @@
 <template>
-    <v-row justify="center">
-        <v-col cols="12">
-            <v-card max-width="400" class="mx-auto my-12">
-                <v-card-text>
-                    <form @submit.prevent="onSignUp">
-                        <v-text-field
-                            id="email"
-                            name="email"
-                            type="email"
-                            label="Email"
-                            required
-                            v-model="email"/>
-                        <v-text-field
-                            id="password"
-                            name="password"
-                            label="Password"
-                            type="password"
-                            required
-                            v-model="password"/>
-                        <v-text-field
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            label="Confirm password"
-                            type="password"
-                            required
-                            v-model="confirmPassword"/>
-                        <v-btn class="primary" block type="submit">
-                            Sign Up
-                        </v-btn>
-                    </form>
-                </v-card-text>
-            </v-card>
-        </v-col>
-    </v-row>
+    <v-container style="max-width: 750px">
+        <v-form @submit.prevent="">
+            <v-row>
+                <v-col>
+                    <v-text-field label="Email" v-model="email" />
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col>
+                    <v-text-field label="Password" v-model="password" />
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col>
+                    <v-text-field
+                        label="Password confirmation"
+                        v-model="confirmPassword"/>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col>
+                    <v-btn class="primary" type="submit" block>Sign In</v-btn>
+                </v-col>
+            </v-row>
+        </v-form>
+    </v-container>
 </template>
 
 <script>
-import * as firebase from 'firebase';
 export default {
     name: 'SignUp',
     data() {
@@ -47,8 +38,15 @@ export default {
         };
     },
     computed: {
-        isPasswordValid() {
-            return this.password !== this.confirmPassword;
+        user() {
+            return this.$store.state.user;
+        },
+    },
+    watch: {
+        user(value) {
+            if (value !== null && value !== undefined) {
+                this.$router.push('/');
+            }
         },
     },
     methods: {
@@ -59,13 +57,10 @@ export default {
             if (this.password !== this.confirmPassword) {
                 alert('Passwords are not equal');
             }
-            firebase
-                .auth()
-                .createUserWithEmailAndPassword(this.email, this.password)
-                .then((userCredential) => {
-                    this.$root.user = userCredential.user.uid;
-                    console.log(userCredential.user.uid);
-                });
+            this.$store.dispatch('signUserUp', {
+                email: this.email,
+                password: this.password,
+            });
         },
     },
 };
