@@ -97,9 +97,7 @@ export default {
                 description,
                 location,
                 date: this.getISODateStr(),
-                imageSrc: '',
             };
-            console.log('createMeetup', meetup, image);
             const { key } = await firebase
                 .database()
                 .ref('meetups')

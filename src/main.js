@@ -17,10 +17,10 @@ new Vue({
             storageBucket: 'homeworkproject-1bde7.appspot.com',
             appId: '1:406969059083:web:947a80947cb17b6ed5440e',
         });
-
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 this.$store.dispatch('autoSignIn', user);
+                this.$store.dispatch('loadUserData');
                 if (this.$route.meta.nonAuth) {
                     this.$router.push('/');
                 }
@@ -31,6 +31,7 @@ new Vue({
                 }
             }
         });
+        this.$store.dispatch('loadMeetups');
         window.firebase = firebase;
     },
     router,

@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '@/views/Home';
 import Meetups from '@/views/Meetup/Meetups';
+import Meetup from '@/views/Meetup/OneMeetup';
 import CreateMeetup from '@/views/Meetup/CreateMeetup';
 import Profile from '@/views/User/Profile';
 import SignIn from '@/views/User/SignIn';
@@ -51,6 +52,12 @@ const routes = [
         path: '/meetups',
         name: 'Meetups',
         component: Meetups,
+    },
+    {
+        path: '/meetups/:id',
+        name: 'Meetup',
+        component: Meetup,
+        props: true,
     },
     {
         path: '*',
