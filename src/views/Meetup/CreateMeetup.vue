@@ -64,7 +64,6 @@
 <script>
 import TimeInput from '@/components/TimeInput';
 import DateInput from '@/components/DateInput';
-import * as firebase from 'firebase';
 
 const minDate = new Date();
 minDate.setDate(minDate.getDate() + 1);
@@ -92,28 +91,14 @@ export default {
     methods: {
         async createMeetup() {
             const { title, description, location, image } = this;
-            const meetup = {
+            await this.$store.dispatch('createMeetup', {
                 title,
                 description,
                 location,
+                image,
                 date: this.getISODateStr(),
-            };
-            const { key } = await firebase
-                .database()
-                .ref('meetups')
-                .push(meetup);
-            const filename = image.name;
-            const ext = filename.slice(filename.lastIndexOf('.'));
-            const fileData = await firebase
-                .storage()
-                .ref('meetups/' + key + ext)
-                .put(image);
-            const imageSrc = await fileData.ref.getDownloadURL();
-            await firebase
-                .database()
-                .ref('meetups')
-                .child(key)
-                .update({ imageSrc });
+            });
+            this.$router.push({ name: 'Meetups' });
         },
         getISODateStr() {
             return new Date(`${this.date}T${this.time}`).toISOString();

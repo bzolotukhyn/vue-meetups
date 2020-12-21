@@ -2,7 +2,7 @@
     <v-container v-if="meetup">
         <v-row>
             <v-col>
-                <v-img :src="meetup.imageSrc" />
+                <v-img :src="meetup.imageSrc" max-height="60vh" contain />
             </v-col>
         </v-row>
         <v-row>
