@@ -83,10 +83,17 @@ export default new Vuex.Store({
             commit('removeRegistration', meetupId);
         },
         async createMeetup(
-            { commit },
+            { commit, state },
             { title, description, location, image, date }
         ) {
-            const meetup = { title, description, location, date, imageSrc: '' };
+            const meetup = {
+                title,
+                description,
+                location,
+                date,
+                imageSrc: '',
+                createdBy: state.user.id,
+            };
             const { key } = await firebase
                 .database()
                 .ref('meetups')
@@ -104,6 +111,7 @@ export default new Vuex.Store({
                 .child(key)
                 .update({ imageSrc });
             meetup.imageSrc = imageSrc;
+            meetup.id = key;
             commit('createMeetup', meetup);
         },
         signUserUp({ commit }, { email, password }) {
